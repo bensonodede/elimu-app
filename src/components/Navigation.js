@@ -1,25 +1,64 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
 
 import * as routes from "../constants/routes";
+import "../styles/App.css";
 
-const Navigation = () => (
-  <div>
-    <ul>
-      <li>
-        <Link to={routes.SIGN_IN}>Sign In</Link>
-      </li>
-      <li>
-        <Link to={routes.LANDING}>Landing</Link>
-      </li>
-      <li>
-        <Link to={routes.HOME}>Home</Link>
-      </li>
-      <li>
-        <Link to={routes.SIGN_UP}>Sign Up</Link>
-      </li>
-    </ul>
-  </div>
-);
-
-export default Navigation;
+export default class Navigation extends Component {
+  render() {
+    return (
+      <div className="Header-Container">
+        <h1 className="Menu-Logo">LOGO</h1>
+        <div className=" Menu-Container">
+          <ul className=" Menu-List">
+            <p className="Menu-Item">
+              <NavLink
+                activeClassName="Menu-Link-Active"
+                className="Menu-Link"
+                to={routes.HOME}
+              >
+                Home
+              </NavLink>
+            </p>
+            <p className="Menu-Item">
+              <NavLink
+                activeClassName="Menu-Link-Active"
+                className="Menu-Link"
+                to={routes.COURSES}
+              >
+                Courses
+              </NavLink>
+            </p>
+            <p className="Menu-Item">
+              <NavLink
+                activeClassName="Menu-Link-Active"
+                className="Menu-Link"
+                to={routes.USERS}
+              >
+                Users
+              </NavLink>
+            </p>
+            <p className="Menu-Item">
+              <NavLink
+                activeClassName="Menu-Link-Active"
+                className="Menu-Link"
+                to={routes.LOGOUT}
+              >
+                Logout
+              </NavLink>
+            </p>
+            <p className="Menu-Item">
+              <NavLink
+                activeClassName="Menu-Link-Active"
+                className="Menu-Link"
+                to={routes.SIGN_IN}
+              >
+                Sign In
+              </NavLink>
+            </p>
+          </ul>
+        </div>
+      </div>
+    );
+  }
+}

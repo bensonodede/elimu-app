@@ -2,12 +2,14 @@ import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Navigation from "./Navigation";
-import LandingPage from "./Landing";
-import SignUpPage from "./SignUp";
-import SignInPage from "./SignIn";
-import PasswordForgetPage from "./PasswordForget";
 import HomePage from "./Home";
-import AccountPage from "./Account";
+import Courses from "./Courses";
+import Users from "./Users";
+import createUsers from "./createUsers";
+import MyProfilePage from "./MyProfile";
+import LogOutPage from "./LogOut";
+import SignInPage from "./SignIn";
+import SignUpPage from "./SignUp";
 
 import * as routes from "../constants/routes";
 
@@ -18,16 +20,14 @@ const App = () => (
 
       <hr />
 
-      <Route exact path={routes.LANDING} component={LandingPage} />
+      <Route exact path={routes.HOME} component={HomePage} />
+      <Route exact path={routes.COURSES} component={Courses} />
+      <Route exact path={routes.USERS} component={Users} />
+      <Route exact path={routes.CREATE_USERS} component={createUsers} />
+      <Route exact path={routes.MY_PROFILE} component={MyProfilePage} />
+      <Route exact path={routes.LOGOUT} component={LogOutPage} />
       <Route exact path={routes.SIGN_UP} component={SignUpPage} />
       <Route exact path={routes.SIGN_IN} component={SignInPage} />
-      <Route
-        exact
-        path={routes.PASSWORD_FORGET}
-        component={PasswordForgetPage}
-      />
-      <Route exact path={routes.HOME} component={HomePage} />
-      <Route exact path={routes.ACCOUNT} component={AccountPage} />
     </div>
   </Router>
 );
