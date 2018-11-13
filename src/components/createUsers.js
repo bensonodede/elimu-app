@@ -1,47 +1,99 @@
-import React, { Component } from "react";
-import { browserHistory } from "react-router";
+import React from "react";
+import { Form } from "react-advanced-form";
+import { Input, Button } from "react-advanced-form-addons";
+import { auth } from "../firebase";
 
-export default class createUsers extends Component {
-  constructor(props) {
-    super(props);
-    this.goBack = this.goBack.bind(this); // i think you are missing this
+export default class CreateUsers extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      userEmail: "",
+      userPassword: "",
+      firstName: "",
+      lastName: "",
+      role: "",
+      error: ""
+    };
   }
+  registerUser = event => {
+    console.log(this.state);
 
-  goBack() {
-    this.props.history.goBack();
-  }
+    const { userEmail, userPassword } = this.state;
+
+    auth
+      .doCreateUserWithEmailAndPassword(
+        userEmail.nextValue,
+        userPassword.nextValue
+      )
+      .then(authUser => {
+        console.log(authUser);
+        //this.setState({ ...INITIAL_STATE });
+      })
+      .catch(error => {
+        console.log(error);
+        //this.setState(byPropKey('error', error));
+      });
+    //event.preventDefault();
+
+    /* Perform async request with the serialized data */
+    return new Promise(resolve => resolve());
+  };
 
   render() {
+    const error = this.state;
     return (
-      <div className="App-container">
-        <div />
+      <Form action={this.registerUser}>
+        <Input
+          onChange={text => this.setState({ firstName: text })}
+          name="firstName"
+          spellCheck={false}
+          type="name"
+          label="First Name"
+          required
+        />
+        <Input
+          onChange={text => this.setState({ lastName: text })}
+          name="lastName"
+          spellCheck={false}
+          type="name"
+          label="Last Name"
+          required
+        />
+        <Input
+          onChange={text => this.setState({ userEmail: text })}
+          name="userEmail"
+          spellCheck={false}
+          type="email"
+          label="E-mail"
+          required
+        />
+        <Input
+          onChange={text => this.setState({ userPassword: text })}
+          name="userPassword"
+          type="password"
+          label="Password"
+          required
+        />
+
+        <Input
+          name="confirmPassword"
+          type="password"
+          label="Confirm password"
+          required
+          skip
+        />
         <div>
-          <h3 className="Input-title">email</h3>
-          <input type="text" placeholder="" />
-        </div>
-        <div>
-          <h3 className="Input-title">First name</h3>
-          <input type="text" placeholder="" />
-        </div>
-        <div>
-          <h3 className="Input-title">Last name</h3>
-          <input type="text" placeholder="" />
-        </div>
-        <div>
-          <h3 className="Input-title">Password</h3>
-          <input type="text" placeholder="" />
-        </div>
-        <div>
-          <h3 className="Input-title">User role</h3>
+          <p>User role</p>
           <select>
+            <option value="" />
             <option value="student">Student</option>
             <option value="instructor">Instructor</option>
           </select>
         </div>
-        <button>
-          <p>Create</p>
-        </button>
-      </div>
+
+        <Button primary>Sign Up</Button>
+        {error && <p>{error.message}</p>}
+      </Form>
     );
   }
 }

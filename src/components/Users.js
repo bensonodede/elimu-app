@@ -1,9 +1,33 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import * as routes from "../constants/routes";
+import { onceGetStudents } from "../firebase/db";
 
 export default class ReportsPage extends Component {
+  constructor() {
+    super();
+    this.state = {
+      Students: []
+    };
+  }
+  componentDidMount() {
+    const { Students } = this.state;
+    onceGetStudents().then(snapshot => {
+      snapshot.forEach(doc => {
+        console.log(doc.data());
+        const user = {
+          id: doc.id,
+          data: doc.data()
+        };
+        Students.push(user);
+        this.setState({ Students }, () => {
+          console.log(this.state.Students);
+        });
+      });
+    });
+  }
   render() {
+    const { Students } = this.state;
     return (
       <div>
         <NavLink
@@ -35,6 +59,14 @@ export default class ReportsPage extends Component {
               <td>Kent</td>
               <td>Instructor</td>
             </tr>
+            {Students.map(item => (
+              <tr key={item.id}>
+                <td>{item.data.email}</td>
+                <td>{item.data.firstName}</td>
+                <td>{item.data.lastName}</td>
+                <td>Student</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
